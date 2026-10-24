@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding Buddy System</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:  '#1E40AF',
+            teal:     '#0D9488',
+            surface:  '#F8FAFC',
+            'primary-light': '#3B82F6',
+            'teal-light':    '#14B8A6',
+          },
+          borderRadius: { card: '12px' },
+          boxShadow: {
+            card: '0 4px 24px rgba(30,64,175,0.08)',
+            'card-hover': '0 8px 32px rgba(30,64,175,0.16)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-surface min-h-screen font-sans text-gray-800">
+
+  <!-- ========== HEADER ========== -->
+  <header class="bg-primary shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Logo Icon -->
+        <div class="w-9 h-9 bg-white rounded-card flex items-center justify-center shadow">
+          <span class="text-primary font-extrabold text-lg leading-none">OB</span>
+        </div>
+        <span class="text-white font-bold text-xl tracking-tight">Onboarding Buddy System</span>
+      </div>
+      <span class="text-blue-200 text-sm hidden sm:block">👋 Selamat datang di keluarga besar!</span>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="hero" aria-label="Hero & Progress Onboarding">
+      <div class="hero-gradient rounded-card p-8 text-white shadow-card relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+
+        <div class="relative z-10">
+          <p class="text-blue-200 text-sm font-medium mb-1 uppercase tracking-widest">Selamat Datang 🎉</p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" id="welcomeTitle">Halo, Karyawan Baru!</h1>
+          <p class="text-blue-100 mb-6 max-w-xl">
+            Kami sangat senang kamu bergabung. Selesaikan checklist onboarding-mu dan jangan ragu untuk bertanya kepada AI Buddy kapan saja.
+          </p>
+
+          <!-- Progress Bar -->
+          <div class="max-w-md">
+            <div class="flex justify-between text-sm text-blue-200 mb-1">
+              <span>Progress Onboarding</span>
+              <span id="progressLabel">0 / 0 selesai</span>
+            </div>
+            <div class="w-full bg-blue-900/40 rounded-full h-3 overflow-hidden">
+              <div id="progressBar"
+                class="h-3 rounded-full bg-teal transition-all duration-500"
+                style="width: 0%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== QUIZ / BADGE STATS WIDGET ========== -->
+    <section id="quiz-stats" aria-label="Status Kuis Onboarding">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+        <!-- Badge 1: Modul SOP -->
+        <div class="quiz-badge-card" id="quizCard-sop" data-quiz="sop">
+          <div class="quiz-badge-icon bg-blue-50 text-primary">📋</div>
+          <div class="flex-1 min-w-0">
+            <p class="quiz-badge-label">Modul SOP</p>
+            <p class="quiz-badge-title">Standar Operasional</p>
+            <div class="quiz-progress-track mt-2">
+              <div class="quiz-progress-fill bg-primary" id="quizFill-sop" style="width:0%"></div>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span class="quiz-score-text" id="quizScore-sop">0 / 3 benar</span>
+              <span class="quiz-badge-status" id="quizStatus-sop">Belum Mulai</span>
+            </div>
+          </div>
+          <button class="quiz-start-btn" onclick="openQuiz('sop')" aria-label="Mulai kuis Modul SOP">
+            Mulai →
+          </button>
+        </div>
+
+        <!-- Badge 2: Akses Tools -->
+        <div class="quiz-badge-card" id="quizCard-tools" data-quiz="tools">
+          <div class="quiz-badge-icon bg-teal-50 text-teal">🛠️</div>
+          <div class="flex-1 min-w-0">
+            <p class="quiz-badge-label">Akses Tools</p>
+            <p class="quiz-badge-title">Tools & Sistem IT</p>
+            <div class="quiz-progress-track mt-2">
+              <div class="quiz-progress-fill bg-teal" id="quizFill-tools" style="width:0%"></div>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span class="quiz-score-text" id="quizScore-tools">0 / 3 benar</span>
+              <span class="quiz-badge-status" id="quizStatus-tools">Belum Mulai</span>
+            </div>
+          </div>
+          <button class="quiz-start-btn btn-teal-outline" onclick="openQuiz('tools')" aria-label="Mulai kuis Akses Tools">
+            Mulai →
+          </button>
+        </div>
+
+        <!-- Badge 3: Pengenalan Tim -->
+        <div class="quiz-badge-card" id="quizCard-team" data-quiz="team">
+          <div class="quiz-badge-icon bg-indigo-50 text-indigo-600">🤝</div>
+          <div class="flex-1 min-w-0">
+            <p class="quiz-badge-label">Pengenalan Tim</p>
+            <p class="quiz-badge-title">Kultur & Kolaborasi</p>
+            <div class="quiz-progress-track mt-2">
+              <div class="quiz-progress-fill bg-indigo-500" id="quizFill-team" style="width:0%"></div>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span class="quiz-score-text" id="quizScore-team">0 / 3 benar</span>
+              <span class="quiz-badge-status" id="quizStatus-team">Belum Mulai</span>
+            </div>
+          </div>
+          <button class="quiz-start-btn btn-indigo-outline" onclick="openQuiz('team')" aria-label="Mulai kuis Pengenalan Tim">
+            Mulai →
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== QUIZ MODAL ========== -->
+    <div id="quizModal" class="quiz-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+      <div class="quiz-modal-box">
+        <!-- Modal Header -->
+        <div class="quiz-modal-header">
+          <h3 class="text-base font-bold text-white" id="quizModalTitle">Kuis</h3>
+          <button onclick="closeQuiz()" class="text-white/70 hover:text-white text-xl leading-none" aria-label="Tutup kuis">✕</button>
+        </div>
+        <!-- Modal Body -->
+        <div class="p-5">
+          <p class="text-xs text-gray-400 mb-1" id="quizQuestionCounter">Pertanyaan 1 dari 3</p>
+          <p class="text-sm font-semibold text-gray-800 mb-4 leading-relaxed" id="quizQuestion">Loading...</p>
+          <div id="quizOptions" class="space-y-2">
+            <!-- Options injected by JS -->
+          </div>
+          <div id="quizFeedback" class="quiz-feedback hidden"></div>
+        </div>
+        <!-- Modal Footer -->
+        <div class="quiz-modal-footer">
+          <span class="text-xs text-gray-400" id="quizProgressText">0 benar sejauh ini</span>
+          <button id="quizNextBtn" onclick="nextQuestion()" class="btn-primary px-5 py-2 rounded-lg text-sm font-semibold hidden">
+            Lanjut →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== MAIN GRID ========== -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- ===== LEFT: CHECKLIST + RESOURCES ===== -->
+      <div class="lg:col-span-2 space-y-8">
+
+        <!-- ── ONBOARDING CHECKLIST ── -->
+        <section id="checklist-section" aria-label="Onboarding Checklist">
+          <div class="bg-white rounded-card shadow-card p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="text-lg font-bold text-primary flex items-center gap-2">
+                <span class="icon-badge bg-primary/10 text-primary">✅</span>
+                Onboarding Checklist
+              </h2>
+              <span class="text-xs text-gray-400 font-medium" id="checklistCounter">0/0</span>
+            </div>
+
+            <!-- Task List -->
+            <ul id="checklistItems" class="space-y-2 mb-5" aria-label="Daftar tugas onboarding">
+              <!-- Tasks injected by JS -->
+            </ul>
+
+            <!-- Add New Task Form -->
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="newTaskInput"
+                placeholder="Tambah tugas baru..."
+                class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
+                aria-label="Input tugas baru"
+              />
+              <button
+                id="addTaskBtn"
+                onclick="addTask()"
+                class="btn-primary text-sm px-4 py-2 rounded-lg font-semibold"
+                aria-label="Tambah tugas"
+              >+ Tambah</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── RESOURCE & SOP CARDS ── -->
+        <section id="resources-section" aria-label="Resource dan SOP">
+          <div class="bg-white rounded-card shadow-card p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+              <h2 class="text-lg font-bold text-primary flex items-center gap-2">
+                <span class="icon-badge bg-teal/10 text-teal">📚</span>
+                Resource & SOP
+              </h2>
+              <!-- Search Bar -->
+              <div class="relative">
+                <input
+                  type="search"
+                  id="resourceSearch"
+                  placeholder="Cari panduan..."
+                  oninput="filterResources()"
+                  class="pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm w-full sm:w-56 focus:outline-none focus:ring-2 focus:ring-teal/40 transition"
+                  aria-label="Cari resource"
+                />
+                <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div id="categoryFilters" class="flex flex-wrap gap-2 mb-4" role="tablist" aria-label="Filter kategori resource">
+              <button class="cat-filter-btn active" data-cat="all"   role="tab" aria-selected="true"  onclick="setCategoryFilter('all')">Semua</button>
+              <button class="cat-filter-btn"        data-cat="sop"   role="tab" aria-selected="false" onclick="setCategoryFilter('sop')">📋 SOP</button>
+              <button class="cat-filter-btn"        data-cat="tools" role="tab" aria-selected="false" onclick="setCategoryFilter('tools')">🛠️ Tools</button>
+              <button class="cat-filter-btn"        data-cat="hr"    role="tab" aria-selected="false" onclick="setCategoryFilter('hr')">👥 HR & Benefits</button>
+            </div>
+
+            <!-- Cards Grid -->
+            <div id="resourceGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4" role="list" aria-label="Kartu SOP">
+              <!-- Resource cards injected by JS -->
+            </div>
+            <p id="noResultMsg" class="text-center text-gray-400 text-sm py-6 hidden">Tidak ada hasil ditemukan.</p>
+          </div>
+        </section>
+
+      </div><!-- /LEFT -->
+
+      <!-- ===== RIGHT: AI CHATBOT ===== -->
+      <aside id="chatbot-section" aria-label="AI Buddy Chatbot">
+        <div class="bg-white rounded-card shadow-card flex flex-col h-[600px] sticky top-20 overflow-hidden">
+
+          <!-- Chat Header -->
+          <div class="bg-gradient-to-r from-primary to-teal p-4 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-base shrink-0">🤖</div>
+            <div>
+              <p class="text-white font-semibold text-sm leading-tight">AI Buddy</p>
+              <p class="text-blue-100 text-xs">Online · Siap membantu</p>
+            </div>
+            <span class="ml-auto w-2 h-2 rounded-full bg-teal-light animate-pulse"></span>
+          </div>
+
+          <!-- Chat Messages -->
+          <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-3 scroll-smooth" aria-live="polite" aria-label="Pesan chat">
+            <!-- Messages injected by JS -->
+          </div>
+
+          <!-- Quick Suggestions -->
+          <div id="quickSuggestions" class="px-4 pb-2 flex gap-2 flex-wrap">
+            <!-- Pills injected by JS -->
+          </div>
+
+          <!-- Chat Input -->
+          <div class="border-t border-gray-100 p-3 flex gap-2">
+            <input
+              type="text"
+              id="chatInput"
+              placeholder="Tanya AI Buddy..."
+              class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
+              aria-label="Pesan ke AI Buddy"
+              onkeydown="handleChatKey(event)"
+            />
+            <button
+              onclick="sendMessage()"
+              class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold shrink-0"
+              aria-label="Kirim pesan"
+            >Kirim</button>
+          </div>
+        </div>
+      </aside><!-- /RIGHT -->
+
+    </div><!-- /MAIN GRID -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-xs text-gray-400 py-6 mt-4 border-t border-gray-100">
+    © 2025 Onboarding Buddy System · Dibuat dengan ❤️ untuk karyawan baru
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
